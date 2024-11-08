@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from 'mongoose';
+import { Role } from "../enum/role.enum";
 
 @Schema()
 export class UserEntity extends Document {
@@ -14,6 +15,9 @@ export class UserEntity extends Document {
 
   @Prop()
   password: string;
+
+  @Prop({type: [String], enum: Role})
+  roles: Role[];
 
   @Prop()
   createdAt: Date;
