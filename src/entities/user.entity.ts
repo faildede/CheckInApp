@@ -1,22 +1,26 @@
-import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, Types } from 'mongoose';
 
-@Entity()
-export class UserEntity {
-  @ObjectIdColumn()
-  id: ObjectId; 
-  
-  @Column()
-  username: string;  
-  
-  @Column()
-  email: string;  
-  
-  @Column()
-  password: string;  
-  
-  @Column()
-  createdAt: Date;  
-  
-  @Column()
+@Schema()
+export class UserEntity extends Document {
+  @Prop({ type: Types.ObjectId })
+  id: Types.ObjectId;
+
+  @Prop()
+  username: string;
+
+  @Prop()
+  email: string;
+
+  @Prop()
+  password: string;
+
+  @Prop()
+  createdAt: Date;
+
+  @Prop()
   updatedAt: Date;
 }
+
+export const UserSchema = SchemaFactory.createForClass(UserEntity);
+
