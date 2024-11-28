@@ -17,6 +17,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const createdUser = new this.userModel({
       ...createUserDto,
+      roles: createUserDto.roles,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
