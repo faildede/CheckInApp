@@ -39,6 +39,11 @@ export class AuthController {
   @ApiOperation({ summary: 'Get user profile' })
   @ApiResponse({ status: 200, description: 'User profile retrieved' })
   getProfile(@Request() req) {
-    return req.user;
+    const user = req.user;
+		return {
+			id: user.id,
+			email: user.email,
+			username: user.username,
+		}
   }
 }
