@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Pair } from 'src/entities/pair.entity';
 import * as QRCode from 'qrcode';
+import { error } from 'console';
 
 @Injectable()
 export class PairService implements OnModuleInit {
@@ -25,7 +26,17 @@ export class PairService implements OnModuleInit {
 
   async generateQRCode(): Promise<string> {
     const qrCodeData = Math.random().toString(36).substring(2, 15);
-    return QRCode.toDataURL(qrCodeData);
+    return QRCode.toDataURL(qrCodeData, {
+      errorCorrectionLevel: 'H',
+      type: 'image/jpeg',
+      quality: 0.3,
+      margin: 1,
+      width: 200,
+      color: {
+        dark: '#000000',
+        blue: '#2f59b2',
+      },
+    });
   }
 
   async updateQRCode(pairId: string): Promise<Pair> {
@@ -38,6 +49,10 @@ export class PairService implements OnModuleInit {
   }
 
   async getPair(pairId: string): Promise<Pair> {
-    return this.pairModel.findById(pairId).populate('students').exec();
+    const pair = await this.pairModel.findById(pairId).populate('students').exec();
+    if (!pair) {
+      throw new Error('Pair not found');
+    }
+    return pair;
   }
 }
